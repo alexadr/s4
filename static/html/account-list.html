@@ -1,0 +1,58 @@
+<div class='row'>
+    <div class='col-sm-6 col-sm-offset-3'>
+
+        <div class='row'>
+            <div class='col-sm-6 col-sm-offset-3'>
+                <h1>Accounts</h1>
+            </div>
+            <div class='row'>
+                <div class='col-sm-6 col-sm-offset-3'>
+                    <button type="button" class="btn btn-default btn-sm" ng-click="newAccount.open = !newAccount.open">Create account</button>
+                    <form ng-submit='addNewAccount()' ng-class="{'hidden': !newAccount.open}">
+                        <div class="form-group"
+                             ng-class="{'has-error': accountError.currencyError }">
+                            <label for="repeatSelect"> Currency:</label>
+                            <select class='form-control'
+                                    name="repeatSelect"
+                                    id="repeatSelect"
+                                    ng-model="newAccount.currency">
+                                <option ng-repeat="option in currencies"
+                                        value="{{ option }}">{{ option }}</option>
+                            </select>
+                            <label class="control-label"
+                               for="repeatSelect"
+                               ng-if='accountError.currencyError'><span ng-repeat='error in accountError.currencyError'>{{ error }}<br/></span></label>
+                        </div>
+                        <input class='btn btn-default'
+                               type='submit'
+                               value='Create account'/>
+                    </form>
+                     <div>{{ log }}</div>
+                </div>
+
+
+            </div>
+            <br/>
+            <div class='row'>
+                <div class='col-sm-6 col-sm-offset-3'
+                     ng-repeat='post in items'>
+                    <div class="thumbnail">
+
+                        <div class="caption">
+                            <h3><a ng-href='/account/{{ post.id }}'>{{ post.number }}</a> <br/>
+                            </h3>
+                            <p style='white-space:pre-wrap'>Currency : {{ post.currency }}</p>
+                            <p style='white-space:pre-wrap'>Amout : {{ post.total_amount }}</p>
+                            <p><a ng-href='/account/{{ post.id }}'
+                                  class='btn btn-primary'>View</a></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <span ng-if='items.length == 0'>No Accounts Found</span>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,85 @@
+<div class='row'>
+    <div class='col-sm-8 col-sm-offset-2'>
+
+        <div class="row">
+            <div class="page-header">
+                <h1>Account number: {{ post.number }}</h1>
+                <h2>Account money: {{ post.total_amount }}</h2>
+                    <h2>Account currency: {{ post.currency }}</h2>
+            </div>
+            <div class='row'>
+                <button type="button" class="btn btn-default btn-sm" ng-click="newTransaction.open = !newTransaction.open">Create transaction</button>
+                <form ng-submit='addNewTransaction()'  ng-class="{'hidden': !newTransaction.open}">
+                    <div class="form-group"
+                         ng-class="{'has-error': transactionError.commentError }">
+                    <textarea class='form-control'
+                              id='contentText'
+                              placeholder='New comment'
+                              ng-model='newTransaction.comment'></textarea>
+                    </div>
+                    <div class="form-group"
+                         ng-class="{'has-error': transactionError.destinationError }">
+                        <label for="repeatSelect"> Destination:</label>
+                        <select class='form-control'
+                                name="repeatSelect"
+                                id="repeatSelect"
+                                ng-model="newTransaction.destination">
+                            <option ng-repeat="option in accounts"
+                                    value="{{ option.number }}">{{ option.number }} - {{ option.currency }}</option>
+                        </select>
+                    </div>
+
+
+
+                    <div class="form-inline"
+                         ng-class="{'has-error': transactionError.totalError }">
+                        <label for="total"> Sum ({{ post.currency }} ):</label>
+                        <input type='text'
+                               ng-model='newTransaction.total'
+                               id='total'
+                               class='form-control'
+                               placeholder='Total'>
+                        <label class="control-label"
+                               for="total"
+                               ng-if='transactionError.totalError'><span ng-repeat='error in transactionError.totalError'>{{ error }}<br/></span></label>
+                        <label for="conversion"> Conversion:  {{ newTransaction.destCurrency }}   </label>
+                        <input type='text'
+                               ng-model='newTransaction.conversion'
+                               id='conversion'
+                               class='form-control'
+                               readonly
+                               placeholder='Conversion'>
+
+                    </div>
+                    <div class="form-group">
+
+                    </div>
+                    <div class="form-group">
+                        <input class='btn btn-default'
+                               type='submit'
+                               value='Add Transaction'/>
+                    </div>
+
+                </form>
+                 <span>{{ newTransaction.log  }}</span>
+            </div>
+            <div class='col-sm-6 col-sm-offset-3'
+                 ng-repeat='t in post.transfers'>
+                <div class="thumbnail" ng-class="transferClass(t)">
+                    <div class="caption">
+                        <span>  {{ t.source }}</span>
+                        <p> From/To: {{ t.acc }}</p>
+                        <p> Count: {{ t.amount }}</p>
+                        <p> Type: {{ t.type }}</p>
+                        <p> Status: {{ t.status }}</p>
+                        <p> Date :{{ t.date }}</p>
+                        <p> Transaction {{ t.comment }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</div>
